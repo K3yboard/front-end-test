@@ -1,0 +1,10 @@
+<div>
+  <h2>Categories</h2>
+
+  <ul *ngFor="let categorie of categories">
+    <li>{{categorie.id}}</li>
+    <li>{{categorie.name}}</li>
+  </ul>
+
+  <p *ngIf="error" class="error">{{error | json}}</p>
+</div>
