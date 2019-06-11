@@ -14,9 +14,15 @@
     <tbody>
       <tr *ngFor="let categorie of categories">
         <td>{{categorie.id}}</td>
-        <td>{{categorie.name}}</td>
+        <td>
+          <span *ngIf="categorie!==editCategorie">{{categorie.name}}</span>
+          <input *ngIf="categorie===editCategorie"
+            type="text" [(ngModel)]="categorie.name" (blur)="update()"
+            (keyup.enter)="update()">
+        </td>
         <td>
           <button type="button" (click)="removeCategorie(categorie)">Deletar</button>
+          <button type="button" (click)="edit(categorie)">Atualizar</button>
         </td>
       </tr>
     </tbody>

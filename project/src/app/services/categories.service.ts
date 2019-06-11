@@ -44,6 +44,16 @@ export class CategoriesService {
       );
   }
 
+  updateCategories(categorie: Categorie): Observable<Categorie> {
+    const url = `${this.categoriesUrl}/${categorie.id}`;
+    httpOptions.headers = httpOptions.headers.set('Authorization', 'my-new-auth-token');
+
+    return this.http.put<Categorie>(url, categorie, httpOptions)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
   deleteCategories(id: number): Observable<{}> {
     const url = `${this.categoriesUrl}/${id}`;
 

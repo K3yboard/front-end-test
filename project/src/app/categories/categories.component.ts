@@ -11,6 +11,7 @@ export class CategoriesComponent implements OnInit {
   private categories: Categorie[];
   private error: any;
   resultadoBuscaPorId: any;
+  editCategorie: Categorie;
 
   constructor(
     private categoriesService: CategoriesService
@@ -29,6 +30,7 @@ export class CategoriesComponent implements OnInit {
   }
 
   findCategories(id: number): void {
+    this.editCategorie = undefined;
     if (id) {
       this.categoriesService.getCategoriesById(id)
         .subscribe(
@@ -39,6 +41,7 @@ export class CategoriesComponent implements OnInit {
   }
 
   addCategorie(name: string): void {
+    this.editCategorie = undefined;
     name = name.trim();
     if(!name) { return; }
 
@@ -48,6 +51,20 @@ export class CategoriesComponent implements OnInit {
       .subscribe(
         categorie => this.categories.push(categorie)
       );
+  }
+
+  edit(categorie: Categorie): void {
+    this.editCategorie = categorie;
+  }
+
+  update(): void {
+    if(this.editCategorie) {
+      this.categoriesService.updateCategories(this.editCategorie)
+        .subscribe(categorie => {
+          const x = categorie ? this.categories.findIndex(c => c.id === categorie.id) : -1;
+          if (x > -1) { this.categories[x] = categorie }
+        });
+    }
   }
 
   removeCategorie(categorie: Categorie): void {
