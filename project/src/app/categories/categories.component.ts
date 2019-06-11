@@ -10,13 +10,14 @@ import { Categorie } from './categories.model';
 export class CategoriesComponent implements OnInit {
   private categories: Categorie[];
   private error: any;
+  resultadoBuscaPorId: any;
 
   constructor(
     private categoriesService: CategoriesService
   ) { }
 
   ngOnInit() {
-    // this.showCategories();
+    this.showCategories();
   }
 
   showCategories(): void {
@@ -27,6 +28,16 @@ export class CategoriesComponent implements OnInit {
       );
   }
 
+  findCategories(id: number): void {
+    if (id) {
+      this.categoriesService.getCategoriesById(id)
+        .subscribe(
+          categorie => this.resultadoBuscaPorId = categorie,
+          error => this.resultadoBuscaPorId = 'Categoria não encontrada'
+        );
+    }
+  }
+
   addCategorie(name: string): void {
     name = name.trim();
     if(!name) { return; }
@@ -34,7 +45,15 @@ export class CategoriesComponent implements OnInit {
     const newCategorie: Categorie = { name } as Categorie;
 
     this.categoriesService.addCategories(newCategorie)
-      .subscribe(categorie => this.categories.push(categorie));
+      .subscribe(
+        categorie => this.categories.push(categorie)
+      );
+  }
+
+  removeCategorie(categorie: Categorie): void {
+    this.categories = this.categories.filter(c => c !== categorie);
+
+    this.categoriesService.deleteCategories(categorie.id).subscribe();
   }
 
 }

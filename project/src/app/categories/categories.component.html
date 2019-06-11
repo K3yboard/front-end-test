@@ -8,12 +8,16 @@
       <tr>
         <th>ID</th>
         <th>Name</th>
+        <th>Ações</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let categorie of categories">
         <td>{{categorie.id}}</td>
         <td>{{categorie.name}}</td>
+        <td>
+          <button type="button" (click)="removeCategorie(categorie)">Deletar</button>
+        </td>
       </tr>
     </tbody>
   </table>
@@ -25,4 +29,7 @@
   <h3>Adicionar nova categoria</h3>
   <input #input placeholder="Digite uma categoria" type="text">
   <button type="button" (click)="addCategorie(input.value); input.value=''">Add categorie</button>
+  <input #findById type="text">
+  <button type="button" (click)="findCategories(findById.value); findById.value=''">Find by ID</button>
+  <p *ngIf="resultadoBuscaPorId">{{resultadoBuscaPorId | json}}</p>
 </div>

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 
@@ -15,22 +15,39 @@ const httpOptions = {
 
 @Injectable()
 export class CategoriesService {
-  url = '/api/categories';
+  categoriesUrl = '/api/categories';
 
   constructor(
     private http: HttpClient
   ) {}
 
   getCategories(): Observable<Categorie[]> {
-    return this.http.get<Categorie[]>(this.url)
+    return this.http.get<Categorie[]>(this.categoriesUrl)
       .pipe(
         retry(3),
         catchError(this.handleError)
       );
   }
 
+  getCategoriesById(id: number): Observable<Categorie[]> {
+    const url = `${this.categoriesUrl}/${id}`;
+    return this.http.get<Categorie[]>(url)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
   addCategories(categorie: Categorie): Observable<Categorie> {
-    return this.http.post<Categorie>(this.url, categorie, httpOptions)
+    return this.http.post<Categorie>(this.categoriesUrl, categorie, httpOptions)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  deleteCategories(id: number): Observable<{}> {
+    const url = `${this.categoriesUrl}/${id}`;
+
+    return this.http.delete(url, httpOptions)
       .pipe(
         catchError(this.handleError)
       );
