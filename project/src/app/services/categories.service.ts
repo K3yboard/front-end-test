@@ -1,14 +1,21 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 
-import { URL_API } from '../app.api';
 import { Categorie } from '../categories/categories.model';
+
+const httpOptions = {
+  headers: new HttpHeaders({
+    'Access-Control-Allow-Origin': '*',
+    'Acess-Control-Request-Method': 'GET, PUT, POST, DELETE, OPTIONS',
+    'Content-Type': 'application/json',
+  })
+};
 
 @Injectable()
 export class CategoriesService {
-  url = URL_API + '/categories';
+  url = '/api/categories';
 
   constructor(
     private http: HttpClient
@@ -18,6 +25,13 @@ export class CategoriesService {
     return this.http.get<Categorie[]>(this.url)
       .pipe(
         retry(3),
+        catchError(this.handleError)
+      );
+  }
+
+  addCategories(categorie: Categorie): Observable<Categorie> {
+    return this.http.post<Categorie>(this.url, categorie, httpOptions)
+      .pipe(
         catchError(this.handleError)
       );
   }

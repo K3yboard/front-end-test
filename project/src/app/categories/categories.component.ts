@@ -16,7 +16,7 @@ export class CategoriesComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.showCategories();
+    // this.showCategories();
   }
 
   showCategories(): void {
@@ -25,6 +25,16 @@ export class CategoriesComponent implements OnInit {
         categories => this.categories = categories,
         error => this.error = error
       );
+  }
+
+  addCategorie(name: string): void {
+    name = name.trim();
+    if(!name) { return; }
+
+    const newCategorie: Categorie = { name } as Categorie;
+
+    this.categoriesService.addCategories(newCategorie)
+      .subscribe(categorie => this.categories.push(categorie));
   }
 
 }

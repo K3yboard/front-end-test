@@ -1,10 +1,28 @@
 <div>
   <h2>Categories</h2>
 
-  <ul *ngFor="let categorie of categories">
-    <li>{{categorie.id}}</li>
-    <li>{{categorie.name}}</li>
-  </ul>
+  <h3>Lista de categorias</h3>
+  <button type="button" (click)="showCategories()">Buscar categorias</button>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let categorie of categories">
+        <td>{{categorie.id}}</td>
+        <td>{{categorie.name}}</td>
+      </tr>
+    </tbody>
+  </table>
 
   <p *ngIf="error" class="error">{{error | json}}</p>
+</div>
+
+<div>
+  <h3>Adicionar nova categoria</h3>
+  <input #input placeholder="Digite uma categoria" type="text">
+  <button type="button" (click)="addCategorie(input.value); input.value=''">Add categorie</button>
 </div>
