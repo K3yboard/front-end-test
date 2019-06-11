@@ -8,8 +8,8 @@ import { Categorie } from './categories.model';
   providers: [CategoriesService]
 })
 export class CategoriesComponent implements OnInit {
-  private categories: Categorie[];
-  private error: any;
+  categories: Categorie[];
+  error: any;
   resultadoBuscaPorId: any;
   editCategorie: Categorie;
   loader = false;
