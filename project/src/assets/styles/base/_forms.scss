@@ -1,0 +1,36 @@
+@charset 'UTF-8';
+
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  background-color: $gray-light;
+  border: $border-default;
+  padding: 8px 15px;
+
+  &:hover,
+  &:focus {
+    border-color: $green;
+  }
+}
+
+.container-input {
+  > div {
+    display: flex;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+  }
+
+  .icon {
+    padding: 10px;
+    background-color: $green-light;
+    color: $white;
+  }
+
+  & + & {
+    margin-top: 20px;
+  }
+}

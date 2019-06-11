@@ -1,0 +1,5 @@
+@mixin responsive($min-width: 768px) {
+  @media screen and (min-width: $min-width) {
+    @content;
+  }
+}

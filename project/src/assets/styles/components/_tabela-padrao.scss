@@ -1,0 +1,42 @@
+@charset 'UTF-8';
+
+.tabela-padrao {
+  width: 100%;
+  box-shadow: $box-shadow;
+  transition: box-shadow .5s;
+
+  &:hover {
+    box-shadow: $box-shadow-hover;
+  }
+
+  th,
+  td {
+    padding: 10px;
+
+    &:first-child {
+      width: 50px;
+    }
+
+    &:last-child {
+      width: 100px;
+    }
+  }
+
+  thead {
+    tr {
+      background-color: rgba($green, 0.3);
+
+      th {
+        font-weight: 600;
+      }
+    }
+  }
+
+  tbody {
+    tr {
+      &:nth-child(odd) {
+        background-color: $gray;
+      }
+    }
+  }
+}

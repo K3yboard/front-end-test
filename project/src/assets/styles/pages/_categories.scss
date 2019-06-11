@@ -1,0 +1,67 @@
+.categories {
+  small {
+    display: block;
+    font-size: 12px;
+    margin-top: 5px;
+  }
+
+  #pesquisar {
+    display: flex;
+    align-content: center;
+
+    &.loader {
+      @extend %loader-config;
+
+      .material-icons {
+        display: none;
+      }
+    }
+  }
+
+  .tabela-padrao {
+    transition: opacity, box-shadow .5s;
+
+    &.loader,
+    .loader {
+      opacity: .5;
+      pointer-events: none;
+    }
+  }
+
+  .container-input {
+    .icon {
+      &.loader {
+        @extend %loader-config;
+
+        .material-icons {
+          display: none;
+        }
+      }
+    }
+  }
+
+  .container-flex {
+    display: flex;
+    flex-direction: column;
+    margin: 30px 0;
+
+    > div {
+      flex: 1;
+
+      & + div {
+        margin-top: 30px;
+      }
+    }
+
+    @include responsive() {
+      flex-direction: row;
+
+      > div {
+        & + div {
+          margin-top: 0;
+          margin-left: 30px;
+        }
+      }
+    }
+  }
+}

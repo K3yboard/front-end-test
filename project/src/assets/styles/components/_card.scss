@@ -1,0 +1,12 @@
+.card {
+  position: relative;
+  padding: 20px;
+  border-radius: $border-radius;
+  background-color: $white;
+  box-shadow: $box-shadow;
+  transition: all 300ms ease-in-out;
+
+  &:hover {
+    box-shadow: $box-shadow-hover;
+  }
+}

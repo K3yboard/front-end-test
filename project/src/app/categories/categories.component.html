@@ -1,41 +1,69 @@
-<div>
-  <h2>Categories</h2>
+<div class="categories">
+  <div class="container-main">
+    <h2>Categories</h2>
 
-  <h3>Lista de categorias</h3>
-  <button type="button" (click)="showCategories()">Buscar categorias</button>
-  <table>
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Ações</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let categorie of categories">
-        <td>{{categorie.id}}</td>
-        <td>
-          <span *ngIf="categorie!==editCategorie">{{categorie.name}}</span>
-          <input *ngIf="categorie===editCategorie"
-            type="text" [(ngModel)]="categorie.name" (blur)="update()"
-            (keyup.enter)="update()">
-        </td>
-        <td>
-          <button type="button" (click)="removeCategorie(categorie)">Deletar</button>
-          <button type="button" (click)="edit(categorie)">Atualizar</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+    <button class="botao" [class.loader]="loader" id="pesquisar" type="button" (click)="showCategories()">
+      Buscar categorias <i class="material-icons">search</i>
+    </button>
+    <small> *A api está retornando apenas os 2 primeiros itens da lista</small>
 
-  <p *ngIf="error" class="error">{{error | json}}</p>
-</div>
+    <div class="container-flex">
+      <div>
+        <table class="tabela-padrao" [class.loader]="loaderPut">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody [class.loader]="loaderDelete">
+            <tr *ngFor="let categorie of categories">
+              <td>{{categorie.id}}</td>
+              <td>
+                <span *ngIf="categorie!==editCategorie">{{categorie.name}}</span>
+                <input *ngIf="categorie===editCategorie"
+                  type="text" [(ngModel)]="categorie.name"
+                  (blur)="update()" (keyup.enter)="update()">
+              </td>
+              <td>
+                <button class="icon" type="button" (click)="removeCategorie(categorie)">
+                  <i class="material-icons">delete</i>
+                </button>
+                <button class="icon"  type="button" (click)="edit(categorie)">
+                  <i class="material-icons">create</i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
 
-<div>
-  <h3>Adicionar nova categoria</h3>
-  <input #input placeholder="Digite uma categoria" type="text">
-  <button type="button" (click)="addCategorie(input.value); input.value=''">Add categorie</button>
-  <input #findById type="text">
-  <button type="button" (click)="findCategories(findById.value); findById.value=''">Find by ID</button>
-  <p *ngIf="resultadoBuscaPorId">{{resultadoBuscaPorId | json}}</p>
+        <p *ngIf="error" class="error">{{error | json}}</p>
+      </div>
+      <div>
+        <div class="card">
+          <div class="container-input">
+            <label for="add-categoria">Adicionar nova categoria:</label>
+            <div>
+              <input #input id="add-categoria" placeholder="Digite uma categoria" type="text">
+              <button class="icon" [class.loader]="loaderPost" type="button" (click)="addCategorie(input.value); input.value=''">
+                <i class="material-icons">add</i>
+              </button>
+            </div>
+          </div>
+          <div class="container-input">
+            <label for="buscar-categoria">Pesquisar uma categoria pelo ID:</label>
+            <div>
+              <input #findById id="buscar-categoria" placeholder="Digite um id de categoria" type="text">
+              <button class="icon" [class.loader]="loaderGetId" type="button" (click)="findCategories(findById.value); findById.value=''">
+                <i class="material-icons">search</i>
+              </button>
+            </div>
+          </div>
+          <p *ngIf="resultadoBuscaPorId">
+            <strong>{{resultadoBuscaPorId.id}}</strong> - {{resultadoBuscaPorId.name}}
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

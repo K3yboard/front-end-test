@@ -1,0 +1,23 @@
+@charset 'UTF-8';
+
+.botao {
+  display: inline-block;
+  padding: 10px 25px;
+  background-color: $green-light;
+  color: $white;
+  text-align: center;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: none;
+  border-radius: $border-radius;
+  cursor: pointer;
+  transition: background-color .5s;
+
+  &:hover {
+    background-color: $green;
+  }
+
+  &:active {
+    background-color: darken($green, 5%);
+  }
+}
