@@ -1,8 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
-
 import { ListaService } from '../services/lista.service';
+
 import { Lista } from '../shared/lista.model';
 import { Categorie } from '../categories/categories.model';
 import { CategoriesService } from '../services/categories.service';
@@ -29,7 +29,7 @@ export class ListsComponent implements OnInit {
     private route: ActivatedRoute,
     private location: Location
   ) {
-    this.idCategoria = +this.route.snapshot.paramMap.get('id');
+    this.idCategoria = +this.route.snapshot.paramMap.get('idCategoria');
    }
 
   ngOnInit() {
@@ -55,11 +55,11 @@ export class ListsComponent implements OnInit {
         )
   }
 
-  findLista(id: number): void {
+  findLista(idLista: number): void {
     this.listaEdit = undefined;
-    if (id) {
+    if (idLista) {
       this.loaderGetId = true;
-      this.listaService.getListaById(id)
+      this.listaService.getListasDaCategoriaById(this.idCategoria, idLista)
         .subscribe(
           lista => {
             this.listas = [];
@@ -95,8 +95,6 @@ export class ListsComponent implements OnInit {
   }
 
   update(idLista: Lista): void {
-    console.log(idLista);
-    console.log(idLista.id);
     if(this.listaEdit) {
       this.loaderPut = true;
       this.listaService.updateLista(this.listaEdit, this.idCategoria, idLista.id)

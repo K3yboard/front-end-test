@@ -1,6 +1,6 @@
 export class Item {
     id: number;
-    idLista: number;
+    listId: number;
     name: string;
     done: boolean;
 }

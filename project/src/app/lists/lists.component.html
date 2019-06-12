@@ -44,7 +44,7 @@
               (blur)="update(lista)" (keyup.enter)="update(lista)">
           </td>
           <td>
-            <a class="icon" routerLink="/" title="Abrir item">
+            <a class="icon" routerLink="/lists/{{categories.id}}/items/{{lista.id}}" title="Abrir item">
               <i class="material-icons">visibility</i>
             </a>
             <button class="icon" type="button" (click)="edit(lista)">
@@ -62,8 +62,8 @@
         </tr>
       </tbody>
     </table>
-    <div>
-      <button type="button" (click)="goBack()">Voltar</button>
+    <div class="container-botao">
+      <button class="botao" type="button" (click)="goBack()">Voltar</button>
     </div>
   </div>
 </div>

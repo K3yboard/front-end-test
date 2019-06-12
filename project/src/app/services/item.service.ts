@@ -3,7 +3,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 
-import { Lista } from '../shared/lista.model';
+import { Item } from '../shared/item.model';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -14,47 +14,48 @@ const httpOptions = {
 };
 
 @Injectable()
-export class ListaService {
+export class ItemService {
   constructor(
     private http: HttpClient
   ) {}
 
-  getListaById(id: number): Observable<Lista[]> {
-    const url = `/api/categories/${id}/lists/`;
-    return this.http.get<Lista[]>(url)
+  getItemById(idCategoria: number, idLista: number): Observable<Item[]> {
+    const url = `/api/categories/${idCategoria}/lists/${idLista}/items`;
+    return this.http.get<Item[]>(url)
       .pipe(
         catchError(this.handleError)
       );
   }
 
-  getListasDaCategoriaById(idCategoria: number, idLista: number): Observable<Lista[]> {
-    const url = `/api/categories/${idCategoria}/lists/${idLista}`;
-    return this.http.get<Lista[]>(url)
+  getItemListaDaCategoriaId(
+    idItem: number, idCategoria: number, idLista: number): Observable<Item[]> {
+    const url = `/api/categories/${idCategoria}/lists/${idLista}/items/${idItem}`;
+    return this.http.get<Item[]>(url)
       .pipe(
         catchError(this.handleError)
       );
   }
 
-  createLista(lista: Lista, id: number): Observable<Lista> {
-    const url = `/api/categories/${id}/lists/`;
-    return this.http.post<Lista>(url, lista, httpOptions)
+  createItem(item: Item, idCategoria: number, idLista: number): Observable<Item> {
+    const url = `/api/categories/${idCategoria}/lists/${idLista}/items`;
+    return this.http.post<Item>(url, item, httpOptions)
       .pipe(
         catchError(this.handleError)
       );
   }
 
-  updateLista(lista: Lista, idCategoria: number, idLista: number): Observable<Lista> {
-    const url = `/api/categories/${idCategoria}/lists/${idLista}`;
+  updateItem(item: Item, idCategoria: number, idLista: number): Observable<Item> {
+    const url = `/api/categories/${idCategoria}/lists/${idLista}/items/${item.id}`;
     httpOptions.headers = httpOptions.headers.set('Authorization', 'my-new-auth-token');
 
-    return this.http.put<Lista>(url, lista, httpOptions)
+    return this.http.put<Item>(url, item, httpOptions)
       .pipe(
         catchError(this.handleError)
       );
   }
 
-  deleteLista(idLista: number, id: number): Observable<{}> {
-    const url = `/api/categories/${id}/lists/${idLista}`;
+  deleteItem(idItem: number, idCategoria: number, idLista: number): Observable<{}> {
+    const url = `/api/categories/${idCategoria}/lists/${idLista}/items/${idItem}`;
 
     return this.http.delete(url, httpOptions)
       .pipe(

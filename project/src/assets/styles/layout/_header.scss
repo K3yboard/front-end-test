@@ -11,29 +11,8 @@ header {
   }
 
   .container-main {
-    display: flex;
-    align-items: center;
-
-    h1,
-    nav {
-      flex: 1;
-    }
-
-    nav {
-      text-align: right;
-
-      a {
-        transition: .4s;
-
-        & + a {
-          margin-left: 30px;
-        }
-
-        &.active {
-          color: $green;
-          letter-spacing: 2px;
-        }
-      }
+    h1 {
+      text-align: center;
     }
   }
 }

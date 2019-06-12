@@ -1,6 +1,6 @@
 <div class="categories">
   <div class="container-main">
-    <h2>Categories</h2>
+    <h2>Categorias</h2>
 
     <div class="card">
       <div class="container-input">
@@ -22,6 +22,14 @@
         </div>
       </div>
     </div>
+
+    <small>
+      *A api está com problemas no método [GET] /categories "Lista categorias",
+      pois o mesmo não está retornando a lista completa de categorias,
+      está mockado trazendo apenas dois itens (Compras e tarefas), para contornar esse problema do serviço o método "pesquisar por id"
+      foi acrescentado em todas as telas, tornando possível a visualização dos itens inseridos exceto aos iniciais já mencionados.
+      <br>
+    </small>
 
     <table class="tabela-padrao" [class.loader]="loaderPut">
       <thead>
@@ -59,8 +67,6 @@
         </tr>
       </tbody>
     </table>
-
-    <small> *A api está retornando apenas os 2 primeiros itens da lista</small>
 
     <p *ngIf="error" class="error">{{error | json}}</p>
   </div>

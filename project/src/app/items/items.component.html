@@ -1,3 +1,78 @@
 <div class="container-main">
-  <h2>Items</h2>
+  <h2>
+    Categoria: <strong>{{categories.name}}</strong><br>
+    Itens da lista: <strong>{{listas.name}}</strong>
+  </h2>
+
+  <div class="card">
+    <div class="container-input">
+      <label for="add">Incluir novo item:</label>
+      <div>
+        <input #input id="add" placeholder="Digite um nome para incluir um novo item" type="text">
+        <button class="icon" type="button" [class.loader]="loaderPost"
+          type="button" (click)="addItem(input.value); input.value=''">
+          <i class="material-icons">add</i>
+        </button>
+      </div>
+    </div>
+    <div class="container-input">
+      <label for="buscar-item">Pesquisar uma item pelo ID:</label>
+      <div>
+        <input #findById id="buscar-item" placeholder="Digite um id" type="text">
+
+        <button class="icon" type="button" [class.loader]="loaderGetId" type="button"
+          (click)="findItem(findById.value); findById.value=''">
+          <i class="material-icons">search</i>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div>
+    <table class="tabela-padrao">
+      <thead>
+        <tr>
+          <th>idCategoria</th>
+          <th>idLista</th>
+          <th>idItem</th>
+          <th>Nome do item</th>
+          <th>status</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of itens">
+          <td>{{categories.id}}</td>
+          <td>{{item.listId}}</td>
+          <td>{{item.id}}</td>
+          <td>
+            <span *ngIf="item!==itemEdit">{{item.name}}</span>
+            <input *ngIf="item===itemEdit"
+              type="text" [(ngModel)]="item.name"
+              (blur)="update(item)" (keyup.enter)="update(item)">
+          </td>
+          <td>
+            <input #checkbox
+              type="checkbox" [disabled]="item!==itemEdit" [(ngModel)]="item.done"
+              (blur)="update(item)" (keyup.enter)="update(item)">
+          </td>
+          <td>
+            <button class="icon" type="button" (click)="edit(item)">
+              <i class="material-icons">create</i>
+            </button>
+            <button class="icon" type="button" (click)="removeItem(item)">
+              <i class="material-icons">delete</i>
+            </button>
+          </td>
+        </tr>
+        <tr *ngIf="loader">
+          <td colspan="6">
+            <span class="loader-table"></span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="container-botao">
+      <button class="botao" type="button" (click)="goBack()">Voltar</button>
+    </div>
+  </div>
 </div>

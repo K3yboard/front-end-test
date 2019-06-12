@@ -2,7 +2,8 @@
   small {
     display: block;
     font-size: 12px;
-    margin-top: 5px;
+    margin: 5px 0;
+    color: red;
   }
 
   #pesquisar {
@@ -38,6 +39,10 @@
         }
       }
     }
+  }
+
+  .container-botao {
+    margin: 20px 0;
   }
 
   .card {
