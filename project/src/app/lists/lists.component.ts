@@ -1,37 +1,58 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
+
 import { ListaService } from '../services/lista.service';
 import { Lista } from '../shared/lista.model';
+import { Categorie } from '../categories/categories.model';
+import { CategoriesService } from '../services/categories.service';
 
 @Component({
   selector: 'app-lists',
   templateUrl: './lists.component.html',
-  providers: [ListaService]
+  providers: [ListaService, CategoriesService]
 })
 export class ListsComponent implements OnInit {
   listas: Lista[];
+  categories: Categorie[];
   listaEdit: Lista;
   loader = false;
   loaderGetId = false;
   loaderPost = false;
   loaderPut = false;
   loaderDelete = false;
+  idCategoria: any;
 
   constructor(
-    private listaService: ListaService
-  ) { }
+    private listaService: ListaService,
+    private categorieService: CategoriesService,
+    private route: ActivatedRoute,
+    private location: Location
+  ) {
+    this.idCategoria = +this.route.snapshot.paramMap.get('id');
+   }
 
   ngOnInit() {
     this.getLista();
   }
 
+  goBack(): void {
+    this.location.back();
+  }
+
   getLista(): void {
     this.loader = true;
-    this.listaService.getLista()
+    this.listaService.getListaById(this.idCategoria)
       .subscribe(
         lista => this.listas = lista,
         (error) => this.listas = error,
         () => this.loader = false
       );
+
+      this.categorieService.getCategoriesById(this.idCategoria)
+        .subscribe(
+          categorie => this.categories = categorie
+        )
   }
 
   findLista(id: number): void {
@@ -61,7 +82,7 @@ export class ListsComponent implements OnInit {
     const newLista: Lista = { name } as Lista;
     this.loaderPost = true;
 
-    this.listaService.createLista(newLista)
+    this.listaService.createLista(newLista, this.idCategoria)
       .subscribe(
         lista => this.listas.push(lista),
         (error) => this.listas = error,
@@ -73,10 +94,12 @@ export class ListsComponent implements OnInit {
     this.listaEdit = lista;
   }
 
-  update(): void {
+  update(idLista: Lista): void {
+    console.log(idLista);
+    console.log(idLista.id);
     if(this.listaEdit) {
       this.loaderPut = true;
-      this.listaService.updateLista(this.listaEdit)
+      this.listaService.updateLista(this.listaEdit, this.idCategoria, idLista.id)
         .subscribe(lista => {
             const x = lista ? this.listas.findIndex(c => c.id === lista.id) : -1;
             if (x > -1) { this.listas[x] = lista }
@@ -92,7 +115,7 @@ export class ListsComponent implements OnInit {
     this.loaderDelete = true;
     this.listas = this.listas.filter(c => c !== lista);
 
-    this.listaService.deleteLista(lista.id).subscribe(
+    this.listaService.deleteLista(lista.id, this.idCategoria).subscribe(
       () => console.log('sucesso'),
       (error) => '',
       () => this.loaderDelete = false

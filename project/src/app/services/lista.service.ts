@@ -15,37 +15,36 @@ const httpOptions = {
 
 @Injectable()
 export class ListaService {
-  listaUrl = '/api/categories/6/lists';
-
   constructor(
     private http: HttpClient
   ) {}
 
-  getLista(): Observable<Lista[]> {
-    return this.http.get<Lista[]>(this.listaUrl)
-      .pipe(
-        retry(3),
-        catchError(this.handleError)
-      );
-  }
+  // getLista(): Observable<Lista[]> {
+  //   return this.http.get<Lista[]>(this.listaUrl)
+  //     .pipe(
+  //       retry(3),
+  //       catchError(this.handleError)
+  //     );
+  // }
 
   getListaById(id: number): Observable<Lista[]> {
-    const url = `${this.listaUrl}/${id}`;
+    const url = `/api/categories/${id}/lists/`;
     return this.http.get<Lista[]>(url)
       .pipe(
         catchError(this.handleError)
       );
   }
 
-  createLista(lista: Lista): Observable<Lista> {
-    return this.http.post<Lista>(this.listaUrl, lista, httpOptions)
+  createLista(lista: Lista, id: number): Observable<Lista> {
+    const url = `/api/categories/${id}/lists/`;
+    return this.http.post<Lista>(url, lista, httpOptions)
       .pipe(
         catchError(this.handleError)
       );
   }
 
-  updateLista(lista: Lista): Observable<Lista> {
-    const url = `${this.listaUrl}/${lista.id}`;
+  updateLista(lista: Lista, idCategoria: number, idLista: number): Observable<Lista> {
+    const url = `/api/categories/${idCategoria}/lists/${idLista}`;
     httpOptions.headers = httpOptions.headers.set('Authorization', 'my-new-auth-token');
 
     return this.http.put<Lista>(url, lista, httpOptions)
@@ -54,8 +53,8 @@ export class ListaService {
       );
   }
 
-  deleteLista(id: number): Observable<{}> {
-    const url = `${this.listaUrl}/${id}`;
+  deleteLista(idLista: number, id: number): Observable<{}> {
+    const url = `/api/categories/${id}/lists/${idLista}`;
 
     return this.http.delete(url, httpOptions)
       .pipe(

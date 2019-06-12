@@ -1,11 +1,11 @@
 <div class="container-main">
-  <h2>Listas</h2>
+  <h2>Listas da categoria <strong>{{categories.name}}</strong></h2>
 
   <div class="card">
     <div class="container-input">
-      <label for="add-lista">Adicionar nova lista:</label>
+      <label for="add-lista">Incluir nova lista:</label>
       <div>
-        <input #input id="add-lista" placeholder="Digite uma lista" type="text">
+        <input #input id="add-lista" placeholder="Digite um nome para incluir uma nova lista" type="text">
         <button class="icon" type="button" [class.loader]="loaderPost"
           type="button" (click)="addLista(input.value); input.value=''">
           <i class="material-icons">add</i>
@@ -27,24 +27,24 @@
     <table class="tabela-padrao">
       <thead>
         <tr>
-          <th>Id</th>
-          <th>Id Item</th>
-          <th>Name</th>
+          <th>idCategoria</th>
+          <th>idLista</th>
+          <th>Nome da lista</th>
           <th>Ações</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let lista of listas">
-          <td>{{lista.id}}</td>
           <td>{{lista.itemId}}</td>
+          <td>{{lista.id}}</td>
           <td>
             <span *ngIf="lista!==listaEdit">{{lista.name}}</span>
             <input *ngIf="lista===listaEdit"
               type="text" [(ngModel)]="lista.name"
-              (blur)="update()" (keyup.enter)="update()">
+              (blur)="update(lista)" (keyup.enter)="update(lista)">
           </td>
           <td>
-            <a class="icon" routerLink="/">
+            <a class="icon" routerLink="/" title="Abrir item">
               <i class="material-icons">visibility</i>
             </a>
             <button class="icon" type="button" (click)="edit(lista)">
@@ -62,5 +62,8 @@
         </tr>
       </tbody>
     </table>
+    <div>
+      <button type="button" (click)="goBack()">Voltar</button>
+    </div>
   </div>
 </div>
