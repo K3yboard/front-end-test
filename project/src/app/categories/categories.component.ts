@@ -42,8 +42,11 @@ export class CategoriesComponent implements OnInit {
       this.loaderGetId = true;
       this.categoriesService.getCategoriesById(id)
         .subscribe(
-          categorie => this.resultadoBuscaPorId = categorie,
-          error => this.resultadoBuscaPorId = 'Categoria não encontrada',
+          categorie => {
+            this.categories = [];
+            this.categories.push(categorie);
+          },
+          error => this.categories = error,
           () => this.loaderGetId = false
         );
     }

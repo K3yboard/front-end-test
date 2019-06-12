@@ -18,7 +18,7 @@
     }
 
     &:last-child {
-      width: 100px;
+      width: 140px;
     }
   }
 
@@ -38,5 +38,9 @@
         background-color: $gray;
       }
     }
+  }
+
+  .loader-table {
+    @extend %loader-config;
   }
 }

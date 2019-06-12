@@ -1,3 +1,66 @@
 <div class="container-main">
-  <h2>Lists</h2>
+  <h2>Listas</h2>
+
+  <div class="card">
+    <div class="container-input">
+      <label for="add-lista">Adicionar nova lista:</label>
+      <div>
+        <input #input id="add-lista" placeholder="Digite uma lista" type="text">
+        <button class="icon" type="button" [class.loader]="loaderPost"
+          type="button" (click)="addLista(input.value); input.value=''">
+          <i class="material-icons">add</i>
+        </button>
+      </div>
+    </div>
+    <div class="container-input">
+      <label for="buscar-lista">Pesquisar uma lista pelo ID:</label>
+      <div>
+        <input #findById id="buscar-lista" placeholder="Digite um id" type="text">
+        <button class="icon" type="button" [class.loader]="loaderGetId" type="button"
+          (click)="findLista(findById.value); findById.value=''">
+          <i class="material-icons">search</i>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div>
+    <table class="tabela-padrao">
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Id Item</th>
+          <th>Name</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let lista of listas">
+          <td>{{lista.id}}</td>
+          <td>{{lista.itemId}}</td>
+          <td>
+            <span *ngIf="lista!==listaEdit">{{lista.name}}</span>
+            <input *ngIf="lista===listaEdit"
+              type="text" [(ngModel)]="lista.name"
+              (blur)="update()" (keyup.enter)="update()">
+          </td>
+          <td>
+            <a class="icon" routerLink="/">
+              <i class="material-icons">visibility</i>
+            </a>
+            <button class="icon" type="button" (click)="edit(lista)">
+              <i class="material-icons">create</i>
+            </button>
+            <button class="icon" type="button" (click)="removeLista(lista)">
+              <i class="material-icons">delete</i>
+            </button>
+          </td>
+        </tr>
+        <tr *ngIf="loader">
+          <td colspan="4">
+            <span class="loader-table"></span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
